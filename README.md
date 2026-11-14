@@ -1,13 +1,13 @@
 # Anime words that aren't on the JLPT lists
 
-`words.tsv` is a list of 70 words that come up often in the subtitles of 25 anime but aren't
-on the JLPT N5 to N1 vocabulary lists. `topic_words.tsv` has 22 ordinary topic words the
+`words.tsv` is a list of 67 words that come up often in the subtitles of 25 anime but aren't
+on the JLPT N5 to N1 vocabulary lists. `topic_words.tsv` has 21 ordinary topic words the
 lists also skip, such as 部室 (clubroom).
 
 The script found the candidates, and we checked every row by hand against real subtitle
 lines. `blocklist.tsv`, `allowlist.tsv`, `genre_words.tsv`, `senses.tsv` and
-`normal_forms.tsv` hold the hand edits, with a reason on each line. A few rows were removed
-from the published lists after the last run, so a rerun gives a slightly longer list.
+`normal_forms.tsv` hold the hand edits, with a reason on each line. We removed or corrected a few
+rows by hand after the last run, so a rerun gives a slightly different list.
 
 - `blocklist.tsv`: rows we left out; part of speech `chunk` marks a textbook chunk such as ません, and we don't count the words inside it.
 - `allowlist.tsv`: interjections we kept that the rule for sounds (うっ, へえ) would drop.

@@ -1,5 +1,5 @@
 form	most_heard_as	other_forms	normal_form	reading	pos	meaning	meaning_tags	per_1000_lines	count	phrases	shows	link
-ねえ	ねえ	ねぇ ねー ね〜 姐 ねい	ない 無い	ねえ	助動詞 形容詞 名詞 感動詞	not	col	13.19	983	ねえ(156) ねえか(93) じゃねえ(54)	25	https://jisho.org/search/%E3%81%AD%E3%81%88
+ねえ	ねえ	ねぇ ねー ね〜	ない 無い	ねえ	助動詞 形容詞	not	col	10.9	815	ねえか(93) じゃねえ(54) ねえよ(39)	25	https://jisho.org/search/%E3%81%AD%E3%81%88
 ぞ	ぞ	ゾ		ぞ	助詞	adds force to a statement, decision or conclusion; indicates command	male	10.72	801	ないぞ(32) 行くぞ(32) いいぞ(26)	25	https://jisho.org/search/%E3%81%9E
 ぬ	ん		ない	ぬ	助動詞 動詞	not		8.54	638	分からん(49) すまん(30) しれん(29)	25	https://jisho.org/search/%E3%81%AC
 ぜ	ぜ			ぜ	助詞	adds light emphasis or insistence to a statement	male fam	6.23	464	行こうぜ(18) いいぜ(11) しようぜ(9)	22	https://jisho.org/search/%E3%81%9C
@@ -8,10 +8,10 @@ form	most_heard_as	other_forms	normal_form	reading	pos	meaning	meaning_tags	per_
 こいつ	こいつ			こいつ	代名詞	he; she; this fellow; this guy; this person	derog fam uk	3.72	278	こいつ(68) こいつは(54) こいつら(28)	23	https://jisho.org/search/%E3%81%93%E3%81%84%E3%81%A4
 じゃん	じゃん	じゃーん		じゃん	助詞	isn't it?; don't you think?; right?; surely; come on	col	2.3	168	いいじゃん(26) ないじゃん(6) じゃーん(4)	21	https://jisho.org/search/%E3%81%98%E3%82%83%E3%82%93
 あにき	あにき	兄貴		あにき	名詞	one's senior; one's elder; big bro	fam col	2.28	171	あにき(94) あにきの(15) あにきは(12)	5	https://jisho.org/search/%E3%81%82%E3%81%AB%E3%81%8D
-ちまう	ちまっ			ちまう	助動詞	to do completely	ktb	2.19	162	なっちまった(12) しちまった(9) なっちまう(7)	18	https://jisho.org/search/%E3%81%A1%E3%81%BE%E3%81%86
-やがる	やがっ			やがる	助動詞	to have the nerve to	derog	1.84	138	しやがって(10) しやがる(5) いやがった(4)	21	https://jisho.org/search/%E3%82%84%E3%81%8C%E3%82%8B
+ちまう	ちまっ			ちまう	助動詞	to do completely / to do accidentally; to do without meaning to; to happen to do	ktb	2.19	162	なっちまった(12) しちまった(9) なっちまう(7)	18	https://jisho.org/search/%E3%81%A1%E3%81%BE%E3%81%86
+やがる	やがっ			やがる	助動詞	rude verb ending: contempt or anger	derog	1.84	138	しやがって(10) しやがる(5) いやがった(4)	21	https://jisho.org/search/%E3%82%84%E3%81%8C%E3%82%8B
 っす	っす	っス ス	です	っす	助動詞	be; is	abbr	1.71	126	いいっす(7) ス(7) ざース(6)	18	https://jisho.org/search/%E3%81%A3%E3%81%99
-てく	てっ			てく	助動詞	to continue	col	1.58	116	置いてく(6) 持ってく(5) 連れてって(5)	23	https://jisho.org/search/%E3%81%A6%E3%81%8F
+てく	てっ			てく	助動詞	do X and go (short for ていく / でいく)	col	1.58	116	置いてく(6) 持ってく(5) 連れてって(5)	23	https://jisho.org/search/%E3%81%A6%E3%81%8F
 かしら	かしら			かしら	助詞	I wonder; do you think?; I might; how about	fem	1.55	115	いいかしら(6) いるのかしら(4) どうかしら(4)	23	https://jisho.org/search/%E3%81%8B%E3%81%97%E3%82%89
 てめえ	てめえ	てめー てめぇ	お前	てめえ	代名詞	you	uk derog male	1.55	116	てめえ(42) てめえの(17) てめえは(11)	14	https://jisho.org/search/%E3%81%A6%E3%82%81%E3%81%88
 そいつ	そいつ			そいつ	代名詞	he; she; that person; that guy; that fellow	derog fam uk	1.45	108	そいつは(37) そいつを(20) そいつの(12)	20	https://jisho.org/search/%E3%81%9D%E3%81%84%E3%81%A4
@@ -21,7 +21,7 @@ form	most_heard_as	other_forms	normal_form	reading	pos	meaning	meaning_tags	per_
 野郎	野郎			やろう	名詞	bastard; asshole; arsehole; son of a bitch	male derog sl	1.07	80	この野郎(15) バカ野郎(8) 野郎だ(7)	17	https://jisho.org/search/%E9%87%8E%E9%83%8E
 貴様	貴様	キサマ		きさま	代名詞	you; you bastard; you son of a bitch	sens derog	1.05	79	貴様(26) 貴様ら(18) 貴様が(7)	15	https://jisho.org/search/%E8%B2%B4%E6%A7%98
 そりゃ	そりゃ	そりゃあ そりゃー	それは	そりゃ	代名詞	that is		1.0	75	そりゃ(27) そりゃあ(9) そりゃそうだ(6)	23	https://jisho.org/search/%E3%81%9D%E3%82%8A%E3%82%83
-やっぱ	やっぱ		やっぱり	やっぱ	副詞	as expected	abbr	0.99	74	やっぱ(46) やっぱいる(2) やっぱ俺(2)	19	https://jisho.org/search/%E3%82%84%E3%81%A3%E3%81%B1
+やっぱ	やっぱ		やっぱり	やっぱ	副詞	as expected / even so; either way; nonetheless; in any event; all the same	abbr	0.99	74	やっぱ(46) やっぱいる(2) やっぱ俺(2)	19	https://jisho.org/search/%E3%82%84%E3%81%A3%E3%81%B1
 クソ	クソ	くそ		くそ	感動詞 名詞	damn; damn it; shit; crap	uk	0.99	73	クソ(37) クソが(5) くそお(4)	18	https://jisho.org/search/%E3%82%AF%E3%82%BD
 お姉ちゃん	お姉ちゃん	おねえちゃん		おねえちゃん	名詞	older sister	fam	0.89	65	お姉ちゃん(45) お姉ちゃんに(6) お姉ちゃんの(4)	8	https://jisho.org/search/%E3%81%8A%E5%A7%89%E3%81%A1%E3%82%83%E3%82%93
 こら	こら	コラ		こら	感動詞 代名詞	hey!		0.85	64	こら(47) こらこら(6) コラ(5)	17	https://jisho.org/search/%E3%81%93%E3%82%89
@@ -29,38 +29,35 @@ form	most_heard_as	other_forms	normal_form	reading	pos	meaning	meaning_tags	per_
 お兄ちゃん	お兄ちゃん			おにいちゃん	名詞	(one's) older brother	fam	0.79	59	お兄ちゃん(29) お兄ちゃんが(5) お兄ちゃんは(5)	8	https://jisho.org/search/%E3%81%8A%E5%85%84%E3%81%A1%E3%82%83%E3%82%93
 おやじ	おやじ	オヤジ		おやじ	名詞	one's father; one's old man; dad; pops	uk fam	0.6	45	おやじ(15) おやじが(6) おやじは(6)	7	https://jisho.org/search/%E3%81%8A%E3%82%84%E3%81%98
 ビビる	ビビっ	ビビル		びびる	動詞	to feel nervous; to feel afraid; to feel self-conscious; to lose one's nerve; to get cold feet; to get the jitters		0.53	39	ビビってる(10) ビビって(9) ビビった(5)	13	https://jisho.org/search/%E3%83%93%E3%83%93%E3%82%8B
-姉ちゃん	姉ちゃん			ねえちゃん	名詞	(one's) older sister; (one's) elder sister	fam	0.51	38	姉ちゃん(10) 姉ちゃんの(8) 姉ちゃんは(6)	5	https://jisho.org/search/%E5%A7%89%E3%81%A1%E3%82%83%E3%82%93
+姉ちゃん	姉ちゃん			ねえちゃん	名詞	girl / (one's) older sister; (one's) elder sister	fam	0.51	38	姉ちゃん(10) 姉ちゃんの(8) 姉ちゃんは(6)	5	https://jisho.org/search/%E5%A7%89%E3%81%A1%E3%82%83%E3%82%93
 よっしゃ	よっしゃ	よっしゃー		よっしゃ	感動詞	gotcha; alrighty; got it; OK	col	0.49	37	よっしゃ(29) よっしゃー(8)	9	https://jisho.org/search/%E3%82%88%E3%81%A3%E3%81%97%E3%82%83
 我	我	われ		われ	代名詞	I; me		0.49	37	我ら(14) 我の(5) 我ながら(3)	13	https://jisho.org/search/%E6%88%91
 いろんな	いろんな			いろんな	連体詞	various; a variety of; all sorts of; many (different)	uk col	0.48	35	いろんな人(5) いろんな意味(4) いろんなこと(3)	18	https://jisho.org/search/%E3%81%84%E3%82%8D%E3%82%93%E3%81%AA
-んな	んな	ンな	そんな	んな	連体詞 形状詞	such (about the actions of the listener, or about ideas expressed or understood by the listener); like that; that sort of	col abbr	0.47	35	んなこと(12) んな(4) んなわけ(3)	14	https://jisho.org/search/%E3%82%93%E3%81%AA
 こりゃ	こりゃ	こりゃあ	これは	こりゃ	代名詞	as for this	uk	0.45	34	こりゃ(19) こりゃあ(4) だこりゃ(2)	15	https://jisho.org/search/%E3%81%93%E3%82%8A%E3%82%83
 モテる	モテ			もてる	動詞	to be popular (esp. with the opposite sex); to be well liked; to be pampered (spoiled, doted upon, etc.); to be welcomed		0.45	34	モテない(6) モテたい(5) モテると(3)	7	https://jisho.org/search/%E3%83%A2%E3%83%86%E3%82%8B
-おら	おら	おらあ		おら	感動詞 代名詞	I; me	male arch	0.41	31	おら(19) おらたち(3) おらあ(2)	9	https://jisho.org/search/%E3%81%8A%E3%82%89
 パパ	パパ			ぱぱ	名詞	dad; daddy; papa	fam	0.41	29	パパが(7) パパの(6) パパ(5)	8	https://jisho.org/search/%E3%83%91%E3%83%91
-じい	じい	爺		じい	名詞	grandfather	fam uk	0.39	29	じいちゃん(16) じいさん(8) じいさんだ(1)	8	https://jisho.org/search/%E3%81%98%E3%81%84
-やれ	やれ			やれ	感動詞	oh!; ah!; oh dear!; dear me!; thank God!		0.37	27	やれやれ(14) やれ(5) やれって(5)	15	https://jisho.org/search/%E3%82%84%E3%82%8C
-ありゃ	ありゃ	ありゃあ	あれは	ありゃ	代名詞 感動詞	as for that; that is		0.35	26	ありゃ(17) ありゃあ(1) ありゃあれ(1)	10	https://jisho.org/search/%E3%81%82%E3%82%8A%E3%82%83
+じい	じい	爺		じい	名詞	grandfather / male senior-citizen	fam uk	0.39	29	じいちゃん(16) じいさん(8) じいさんだ(1)	8	https://jisho.org/search/%E3%81%98%E3%81%84
+ありゃ	ありゃ	ありゃあ	あれは	ありゃ	代名詞 感動詞	as for that; that is / oh; ah; I'll be darned		0.35	26	ありゃ(17) ありゃあ(1) ありゃあれ(1)	10	https://jisho.org/search/%E3%81%82%E3%82%8A%E3%82%83
 うるせえ	うるせえ	うるせー	煩い	うるせえ	形容詞	shut up!; be quiet!	col	0.35	26	うるせえ(9) うるせえんだ(4) うるせえって(2)	10	https://jisho.org/search/%E3%81%86%E3%82%8B%E3%81%9B%E3%81%88
 みてえ	みてえ		みたい	みてえ	形状詞	-like; sort of; similar to; resembling	col	0.35	26	みてえな(9) みてえだ(5) みてえに(5)	8	https://jisho.org/search/%E3%81%BF%E3%81%A6%E3%81%88
 やあ	やあ			やあ	感動詞	yo!; hello there!; hi!		0.34	25	やあ(20) やああああ(1) やあやあ(1)	14	https://jisho.org/search/%E3%82%84%E3%81%82
 彼氏	彼氏			かれし	名詞	boyfriend		0.32	23	彼氏と(8) 彼氏に(4) の彼氏(2)	9	https://jisho.org/search/%E5%BD%BC%E6%B0%8F
 母さん	母さん			かあさん	名詞	mother		0.31	23	母さんが(5) 母さんの(5) 母さんを(4)	7	https://jisho.org/search/%E6%AF%8D%E3%81%95%E3%82%93
-食らう	食らう	喰らう くらう		くらう	動詞	to receive (e.g. a blow)		0.31	23	喰らわせた(2) 食らうの(2) 食らえ(2)	11	https://jisho.org/search/%E9%A3%9F%E3%82%89%E3%81%86
+食らう	食らう	喰らう くらう		くらう	動詞	to eat; to drink; to wolf; to knock back / to receive (e.g. a blow)	vulg	0.31	23	喰らわせた(2) 食らうの(2) 食らえ(2)	11	https://jisho.org/search/%E9%A3%9F%E3%82%89%E3%81%86
 ムカつく	ムカつく	むかつく		むかつく	動詞	to feel irritated; to feel offended; to feel angry		0.3	22	むかつく(3) ムカつくんだ(3) むかつく奴(2)	10	https://jisho.org/search/%E3%83%A0%E3%82%AB%E3%81%A4%E3%81%8F
 おめえ	おめえ	おめぇ おめー	お前	おめえ	代名詞	you	fam male	0.25	19	おめえは(4) おめえ(3) おめえの(2)	9	https://jisho.org/search/%E3%81%8A%E3%82%81%E3%81%88
-ばあ	ばあ	婆		ばあ	名詞 副詞	granny; grandma; gran	fam uk	0.24	18	ばあさん(5) ばあちゃん(5) 婆に(2)	5	https://jisho.org/search/%E3%81%B0%E3%81%82
+んな	んな		そんな	んな	連体詞	such (about the actions of the listener, or about ideas expressed or understood by the listener); like that; that sort of	col abbr	0.24	18	んなこと(12) んなわけ(3) んなカード(1)	11	https://jisho.org/search/%E3%82%93%E3%81%AA
 雑魚	雑魚			ざこ	名詞	(a) nobody; small fry; unimportant person		0.24	18	雑魚は(4) 雑魚悪魔(3) 雑魚だ(2)	5	https://jisho.org/search/%E9%9B%91%E9%AD%9A
 とっとと	とっとと			とっとと	副詞	at once; right away; promptly; quickly; right now; this instant	col	0.23	17	とっとと出て(3) とっとと(1) とっととお(1)	8	https://jisho.org/search/%E3%81%A8%E3%81%A3%E3%81%A8%E3%81%A8
-お嬢様	お嬢様	お嬢さま		おじょうさま	名詞	young lady (of pampered upbringing); woman who has never known hardship; naive woman		0.21	16	お嬢様(5) お嬢様は(2) お嬢さま高校だ(1)	8	https://jisho.org/search/%E3%81%8A%E5%AC%A2%E6%A7%98
-でく	でく			でく	助動詞 名詞	to continue	col	0.21	16	でっ(4) 撃ち込んでく(2) 死んでく(2)	10	https://jisho.org/search/%E3%81%A7%E3%81%8F
+お嬢様	お嬢様	お嬢さま		おじょうさま	名詞	young lady; young mistress (polite)	pol	0.21	16	お嬢様(5) お嬢様は(2) お嬢さま高校だ(1)	8	https://jisho.org/search/%E3%81%8A%E5%AC%A2%E6%A7%98
+でく	でく			でく	助動詞 名詞	do X and go (short for ていく / でいく)	col	0.21	16	でっ(4) 撃ち込んでく(2) 死んでく(2)	10	https://jisho.org/search/%E3%81%A7%E3%81%8F
+やれやれ	やれやれ			やれやれ	感動詞	oh dear; good grief		0.21	15	やれやれ(14) やれやれだ(1)	12	https://jisho.org/search/%E3%82%84%E3%82%8C%E3%82%84%E3%82%8C
 おうち	おうち			おうち	名詞	(my) home	chn uk	0.2	15	おうちに(4) おうちは(2) おうちを(2)	5	https://jisho.org/search/%E3%81%8A%E3%81%86%E3%81%A1
 バッチリ	バッチリ	ばっちり		ばっちり	副詞	perfectly; right on the mark; spot on; bang on	on-mim	0.2	15	バッチリです(3) バッチリくっきり(2) にバッチリ(1)	8	https://jisho.org/search/%E3%83%90%E3%83%83%E3%83%81%E3%83%AA
 ボウズ	ボウズ	坊主		ぼうず	名詞	boy; sonny; lad	fam derog	0.2	15	ボウズ(6) あのボウズ(2) だ坊主(1)	5	https://jisho.org/search/%E3%83%9C%E3%82%A6%E3%82%BA
 ぶっ殺す	ぶっ殺し		殺す	ぶっころす	動詞	to kill; to beat to death		0.19	14	ぶっ殺して(4) ぶっ殺す(2) ぶっ殺すまで(2)	5	https://jisho.org/search/%E3%81%B6%E3%81%A3%E6%AE%BA%E3%81%99
-ハゲ	ハゲ	禿 はげ		はげ	名詞	bald person; baldy	derog uk	0.19	14	ハゲで(3) あの禿(1) はげちゃ(1)	7	https://jisho.org/search/%E3%83%8F%E3%82%B2
 下手クソ	下手クソ	下手くそ		へたくそ	名詞	unskilled; clumsy; lousy; poor; awkward; shitty	uk derog	0.19	14	下手くそ(4) クソ下手クソな(2) 下手クソ(2)	4	https://jisho.org/search/%E4%B8%8B%E6%89%8B%E3%82%AF%E3%82%BD
-いっちょ	いっちょ	いっちょう 一丁		いっちょ	名詞	one game; one task		0.17	13	もういっちょう(2) いっちょこい(1) いっちょ上がり(1)	7	https://jisho.org/search/%E3%81%84%E3%81%A3%E3%81%A1%E3%82%87
+いっちょ	いっちょ	いっちょう 一丁		いっちょ	名詞	one game; one task / well then; right		0.17	13	もういっちょう(2) いっちょこい(1) いっちょ上がり(1)	7	https://jisho.org/search/%E3%81%84%E3%81%A3%E3%81%A1%E3%82%87
 っちゅう	っちゅう		という	っちゅう	助動詞	meaning; called; named; that says; that	col	0.17	13	あるっちゅう(1) いかんからっちゅう(1) おらんからっちゅうて(1)	4	https://jisho.org/search/%E3%81%A3%E3%81%A1%E3%82%85%E3%81%86
 アホ	アホ			あほ	名詞	fool; idiot; simpleton	col uk ksb	0.17	13	アホ(4) アホか(1) アホが(1)	9	https://jisho.org/search/%E3%82%A2%E3%83%9B
 キモい	キモい			きもい	形容詞	gross; disgusting	sl abbr	0.17	13	キモいから(2) キモくない(2) キモい(1)	5	https://jisho.org/search/%E3%82%AD%E3%83%A2%E3%81%84

@@ -4,7 +4,7 @@ form	most_heard_as	other_forms	normal_form	reading	pos	meaning	meaning_tags	per_
 入部	入部			にゅうぶ	名詞	joining a club		0.59	44	入部する(5) 入部届(5) 入部して(4)	6	https://jisho.org/search/%E5%85%A5%E9%83%A8
 封印	封印			ふういん	名詞	seal		0.59	44	封印の(13) 封印が(6) 封印して(5)	5	https://jisho.org/search/%E5%B0%81%E5%8D%B0
 部室	部室			ぶしつ	名詞	clubroom		0.45	34	部室に(5) 部室の(5) 部室で(3)	7	https://jisho.org/search/%E9%83%A8%E5%AE%A4
-最悪	最悪			さいあく	名詞	worst		0.4	30	最悪(9) 最悪の(8) 最悪だ(7)	14	https://jisho.org/search/%E6%9C%80%E6%82%AA
+最悪	最悪			さいあく	名詞	worst / horrible; horrid; awful; terrible / in the worst case; if worst comes to worst	col	0.4	30	最悪(9) 最悪の(8) 最悪だ(7)	14	https://jisho.org/search/%E6%9C%80%E6%82%AA
 討伐	討伐			とうばつ	名詞	subjugation (using military force); suppression; subduing		0.39	29	討伐を(5) の討伐(3) 討伐して(3)	4	https://jisho.org/search/%E8%A8%8E%E4%BC%90
 ブタ	ブタ	豚		ぶた	名詞	pig (Sus scrofa domesticus)		0.36	27	ブタを(5) ブタだ(4) 豚串(4)	6	https://jisho.org/search/%E3%83%96%E3%82%BF
 オニギリ	オニギリ	おにぎり		おにぎり	名詞	onigiri; rice ball (often triangular, sometimes with a filling and wrapped in nori)	uk	0.35	26	オニギリの(4) オニギリ(3) おにぎりが(2)	5	https://jisho.org/search/%E3%82%AA%E3%83%8B%E3%82%AE%E3%83%AA
@@ -18,6 +18,5 @@ form	most_heard_as	other_forms	normal_form	reading	pos	meaning	meaning_tags	per_
 セリフ	セリフ			せりふ	名詞	(spoken) line (in a play, film, comic, etc.); one's lines	uk	0.17	13	のセリフ(3) セリフだ(2) セリフです(2)	8	https://jisho.org/search/%E3%82%BB%E3%83%AA%E3%83%95
 ごっこ	ごっこ			ごっこ	名詞	playing at (something); game of make-believe; something done together		0.16	11	ごっこが(2) ごっこは(2) ごっこできる(1)	7	https://jisho.org/search/%E3%81%94%E3%81%A3%E3%81%93
 まんじゅう	まんじゅう			まんじゅう	名詞	manjū; steamed yeast bun with filling		0.16	12	みのぶまんじゅう(2) おしくらまんじゅう(1) おまんじゅう(1)	5	https://jisho.org/search/%E3%81%BE%E3%82%93%E3%81%98%E3%82%85%E3%81%86
-牙	牙	キバ		きば	名詞	tusk; fang		0.16	12	牙さん(4) 牙を(3) キバん(1)	6	https://jisho.org/search/%E7%89%99
 さらす	さらし	晒す		さらす	動詞	to expose (to the sun, public, danger, etc.)		0.15	11	さらして(2) さらさずに(1) さらされて(1)	7	https://jisho.org/search/%E3%81%95%E3%82%89%E3%81%99
 アイス	アイス			あいす	名詞	ice cream	abbr	0.15	11	アイスも(2) このアイス(1) アイスうま(1)	6	https://jisho.org/search/%E3%82%A2%E3%82%A4%E3%82%B9
