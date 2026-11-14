@@ -1,26 +1,24 @@
-# Ordinary topic and genre words, moved by hand to the second output file (<out>.genre.tsv), not deleted.
-# They got in only because JMdict does not mark them "common", or because a JMdict label belongs to another sense.
-# form	part of speech (Sudachi)	# why
-超能力	名詞	# genre vocabulary (psychic powers), not marked speech
-姫	名詞	# ordinary noun 'princess' (お姫様); the arch label is a different sense
-入部	名詞	# school-club topic word (join a club)
-封印	名詞	# fantasy topic word (seal)
-部室	名詞	# school topic word (club room)
-最悪	名詞	# ordinary word 'worst' (最悪だ), not marked speech
-討伐	名詞	# fantasy topic word (subjugation)
-ブタ	名詞	# mostly the literal animal (pig hunting, 豚串); insult use is rare
-オニギリ	名詞	# food word (rice ball)
-この世	名詞	# ordinary noun 'this world'
-主	名詞	# ordinary noun (主電源, 依頼主, 声の主)
-ワナ	名詞	# ordinary noun 'trap'
-バトル	名詞	# ordinary loanword 'battle'
-ごっこ	名詞	# ordinary noun 'pretend play'
-民	名詞	# period-drama topic word (the people)
-クリア	名詞	# ordinary loanword 'clear'
-スイーツ	名詞	# ordinary loanword 'sweets'
-から揚げ	名詞	# food word
-セリフ	名詞	# ordinary noun 'line (of dialogue)'
-まんじゅう	名詞	# food word
-牙	名詞	# half the hits are the name 天牙; the rest the ordinary 'fang'
-さらす	動詞	# ordinary verb 'expose' (危険にさらされる), not the rough sense
-アイス	名詞	# everyday loanword 'ice cream'
+form	pos	why
+超能力	名詞	genre vocabulary (psychic powers), not marked speech
+姫	名詞	ordinary noun 'princess' (お姫様); the arch label is a different sense
+入部	名詞	school-club topic word (join a club)
+封印	名詞	fantasy topic word (seal)
+部室	名詞	school topic word (club room)
+最悪	名詞	ordinary word 'worst' (最悪だ), not marked speech
+討伐	名詞	fantasy topic word (subjugation)
+ブタ	名詞	mostly the literal animal (pig hunting, 豚串); insult use is rare
+オニギリ	名詞	food word (rice ball)
+この世	名詞	ordinary noun 'this world'
+主	名詞	ordinary noun (主電源, 依頼主, 声の主)
+ワナ	名詞	ordinary noun 'trap'
+バトル	名詞	ordinary loanword 'battle'
+ごっこ	名詞	ordinary noun 'pretend play'
+民	名詞	period-drama topic word (the people)
+クリア	名詞	ordinary loanword 'clear'
+スイーツ	名詞	ordinary loanword 'sweets'
+から揚げ	名詞	food word
+セリフ	名詞	ordinary noun 'line (of dialogue)'
+まんじゅう	名詞	food word
+牙	名詞	half the hits are the name 天牙; the rest the ordinary 'fang'
+さらす	動詞	ordinary verb 'expose' (危険にさらされる), not the rough sense
+アイス	名詞	everyday loanword 'ice cream'

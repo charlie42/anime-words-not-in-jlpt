@@ -1,46 +1,35 @@
-# Forms heard in anime subtitles that are not on the JLPT vocabulary lists.
-# Needs: pip install sudachipy==0.6.11 sudachidict_core==20260428
-# Usage: python -I not_in_jlpt.py <subs dir> <ref dir> <out.tsv> [katakana,verb]
-#   optional 4th argument: rescue rules for slang uses of JLPT words (see RESCUES), off by default
-#   <subs dir>/raw/<show>/<ep>.bin: one SRT file per episode, named by episode number
-#   <ref dir>: the JLPT lists and JMdict are downloaded here on first run (pinned below)
 import csv, glob, hashlib, io, json, os, re, statistics, sys, urllib.parse, urllib.request, zipfile
 from collections import Counter, defaultdict
 from sudachipy import Dictionary, SplitMode
 
-# Jonathan Waller's JLPT N5-N1 lists (tanos.co.uk, CC BY), with JMdict ids added by stephenmk (repo CC BY-SA 4.0).
+# Jonathan Waller's JLPT N5-N1 lists (tanos.co.uk, CC BY), with JMdict ids added by stephenmk (CC BY-SA 4.0).
 JLPT_URL = "https://raw.githubusercontent.com/stephenmk/yomitan-jlpt-vocab/b062d4e38c4bdd0950ae1d4ec55f04b176182e03/original_data/n{}.csv"
 # JMdict (EDRDG, CC BY-SA 4.0) as JSON by scriptin/jmdict-simplified.
 JMDICT_URL = "https://github.com/scriptin/jmdict-simplified/releases/download/3.6.2%2B20261102210542/jmdict-eng-3.6.2%2B20261102210542.json.zip"
 JMDICT_SHA256 = "851791d3cc98a29ca7e4f65532966cdee637a1bc218cf1c99b4895b780edb101"
-MIN_SHOWS, MIN_RATE = 4, 0.15         # in >= 4 shows, and >= 0.15 lines per 1,000 (averaged over the shows)
-CAP = 3000                            # lines per show: the first 3,000 subtitle lines with Japanese, episodes in order
+MIN_SHOWS, MIN_RATE = 4, 0.15         # in 4+ shows, at 0.15+ lines per 1,000 (averaged over the shows)
+CAP = 3000                            # the first 3,000 lines with Japanese per show, episodes in order
 SKIP_POS = {"補助記号", "空白", "記号", "接頭辞", "接尾辞"}
 SKIP_SUB = {"固有名詞": "names", "数詞": "numbers"}
-# Particles that link words (が, を, に, て...) are grammar, not vocabulary; sentence-final ones (ぜ, ぞ, わ) stay.
+# Linking particles (が, を, に, て) are grammar. Sentence-final ones (ぜ, ぞ, わ) stay.
 GRAMMAR_PARTICLES = {"格助詞", "係助詞", "副助詞", "接続助詞", "準体助詞"}
-# Waller's lists are vocabulary only, so the textbook (N5-N4) auxiliaries and grammar words are dropped by name.
+# Waller's lists have no grammar, so we drop the N5-N4 auxiliaries and grammar words by name.
 TEXTBOOK_GRAMMAR = {"だ", "です", "ます", "た", "ない", "う", "よう", "たい", "れる", "られる", "せる", "させる",
                     "らしい", "そう", "みたい", "たがる", "しれる"}
-# A row is kept only if it is slurred, has one of these labels, or its JMdict entry is not marked common.
+# We keep a row only if it is slurred, has one of these labels, or its JMdict entry isn't marked common.
 REGISTER = {"col", "sl", "vulg", "derog", "male", "fem", "rude", "arch", "dated", "fam", "net-sl", "joc"}
-# Optional rules that keep a spelling or use of a JLPT word anyway (the slang use the word list can't see):
-RESCUES = {"katakana": "katakana spelling",  # ナメる for 舐める, クズ for 屑: Waller spells the word in kanji or hiragana
-           "verb": "after a verb"}  # まくる in 殴りまくる: a JLPT verb attached straight to another verb's stem
-# Phrases: a clause ends at punctuation; particles, auxiliaries and suffixes hang on the word before them.
+# Optional 4th argument: keep a slang spelling or use of a JLPT word.
+RESCUES = {"katakana": "katakana spelling",  # ナメる for 舐める: Waller spells it in kanji or hiragana
+           "verb": "after a verb"}  # まくる in 殴りまくる: a JLPT verb right after another verb's stem
+# A clause ends at punctuation. Particles, auxiliaries and suffixes belong to the word before them.
 PHRASE_BREAKS, PHRASE_ENDINGS = {"補助記号", "空白", "記号"}, {"助詞", "助動詞", "接尾辞"}
-# Hand lists, one row per line: form, part of speech, and why. In the blocklist, part of speech "chunk" means a
-# textbook chunk as heard (ません): a word inside it is not counted there. The allowlist keeps interjections.
-# genre_words.tsv: ordinary topic words (姫, 部室) moved by hand to a second output file, <out>.genre.tsv.
-# senses.tsv: the JMdict sense each output row is heard in (the row's meaning); every row must have one.
-# normal_forms.tsv: the textbook form a slurred row stands for, where Sudachi's normal form is wrong ("-": not slurred).
 HERE = os.path.dirname(os.path.abspath(__file__))
 BLOCKLIST, ALLOWLIST = os.path.join(HERE, "blocklist.tsv"), os.path.join(HERE, "allowlist.tsv")
 GENRE_WORDS, SENSES = os.path.join(HERE, "genre_words.tsv"), os.path.join(HERE, "senses.tsv")
 NORMAL_FORMS = os.path.join(HERE, "normal_forms.tsv")
 FIELDS = ["form", "most_heard_as", "other_forms", "normal_form", "reading", "pos", "meaning",
           "meaning_tags", "per_1000_lines", "count", "phrases", "shows", "link"]
-TAG = re.compile(r"\{[^}]*\}|<[^>]*>|[（(][^)）]*[)）]|\[[^\]]*\]|［[^］]*］|【[^】]*】")  # copied from numbers.py
+TAG = re.compile(r"\{[^}]*\}|<[^>]*>|[（(][^)）]*[)）]|\[[^\]]*\]|［[^］]*］|【[^】]*】")
 JP = re.compile(r"[ぁ-ヿ一-鿿々]")
 KANJI = re.compile(r"[一-鿿々]")
 KATA = re.compile(r"[ァ-ヺ]")
@@ -88,8 +77,8 @@ def load_refs(ref):
     words = json.load(io.TextIOWrapper(zf.open(zf.namelist()[0]), encoding="utf-8"))["words"]
     entries = defaultdict(list)  # form -> JMdict entries listing it
     for w in words:
-        w["kanji"] = [f for f in w["kanji"] if "sK" not in f["tags"]]  # drop search-only spellings
-        w["kana"] = [f for f in w["kana"] if "sk" not in f["tags"]]    # (あぶねー under 危ない)
+        w["kanji"] = [f for f in w["kanji"] if "sK" not in f["tags"]]  # drop search-only spellings (あぶねー)
+        w["kana"] = [f for f in w["kana"] if "sk" not in f["tags"]]
         for f in w["kanji"] + w["kana"]:
             entries[f["text"]].append(w)
     jlpt_readings = defaultdict(set)  # JLPT spelling -> its readings (言う: いう, ゆう)
@@ -99,8 +88,7 @@ def load_refs(ref):
     return waller, entries, jlpt_readings, {squash(r) for r in jlpt_readings}
 
 
-# Song lines, ported from the app's filter anime_anki/media/song_filter.py (copied, not imported: this script stands
-# alone). A line is a lyric if it has a music symbol, is mostly English, or recurs across episodes like an OP/ED line.
+# A line is a song lyric if it has a music symbol, is mostly English, or recurs across episodes like an OP/ED line.
 MUSIC = set("♪🎵🎶♫♬")
 LATIN_WORD = re.compile(r"[A-Za-z]{3,}")
 TIMES = re.compile(r"(\d+):(\d+):(\d+)[,.](\d+) --> (\d+):(\d+):(\d+)[,.](\d+)")
@@ -109,7 +97,7 @@ TIMES = re.compile(r"(\d+):(\d+):(\d+)[,.](\d+) --> (\d+):(\d+):(\d+)[,.](\d+)")
 def to_ms(h, m, s, f): return ((int(h) * 60 + int(m)) * 60 + int(s)) * 1000 + int(f)
 
 
-def read_episode(path):  # -> [(start ms, end ms, line)], one per subtitle block with text
+def read_episode(path):  # -> [(start ms, end ms, line)]
     out = []
     for block in open(path, encoding="utf-8-sig").read().replace("\r", "").split("\n\n"):
         rows = [r for r in block.split("\n") if r]
@@ -125,20 +113,20 @@ def too_much_english(t):  # mostly Latin letters and at least 2 English words: "
     return latin + jp > 0 and latin / (latin + jp) > 0.3 and len(LATIN_WORD.findall(t)) >= 2
 
 
-def recurring(eps):  # in 3 episodes in a row, or 10+ times over 3+ episodes, or 5+ times in one episode and in 2+
+def recurring(eps):  # in 3 episodes in a row, 10+ times over 3+ episodes, or 5+ times in one of 2+ episodes
     n = Counter(eps)
     return (any(e + 1 in n and e + 2 in n for e in n) or len(n) >= 3 and sum(n.values()) >= 10
             or len(n) >= 2 and max(n.values()) >= 5)
 
 
-def songs(episodes):  # {episode number: read_episode()} -> the show's recurring song lines (5+ characters)
+def songs(episodes):  # -> the show's recurring song lines (5+ characters)
     where = defaultdict(list)
     for ep, rows in episodes.items():
         for _, _, t in rows:
             where[t].append(ep)
     found = {t for t, eps in where.items() if len(t) >= 5 and recurring(eps)}
-    # Songs play at the same point of every episode; a line that recurs at varied points is a catchphrase or spell
-    # (stdev of its position, as a share of the episode's length, above 0.10 over 3+ hits), so it stays.
+    # Songs play at the same point of each episode. A line that recurs at varied points is a catchphrase, so it
+    # stays (stdev of its position, as a share of the episode, above 0.10 over 3+ hits).
     at = defaultdict(list)
     for rows in episodes.values():
         length = max((e for _, e, _ in rows), default=0)
@@ -171,7 +159,7 @@ def main(subs, ref, out, rescue=""):
     for show_dir in sorted(glob.glob(f"{subs}/raw/*")):
         show = os.path.basename(show_dir)
         episodes = {int(os.path.basename(p)[:-4]): read_episode(p) for p in glob.glob(f"{show_dir}/*.bin")}
-        song_lines = songs(episodes)  # found over the whole show, like the app does
+        song_lines = songs(episodes)  # over the whole show, before the line cap
         for ep in sorted(episodes):
             if lines[show] >= CAP:
                 break
@@ -202,12 +190,12 @@ def main(subs, ref, out, rescue=""):
                     said.add((key, phrase(ms, i)))
                 for key, p in said:  # counted once per line
                     phrases[key][p] += 1
-                lines[show] += bool(JP.search(line))  # denominator: every subtitle line with Japanese in it
+                lines[show] += bool(JP.search(line))  # the denominator counts lines with Japanese
                 for key in seen:  # counted once per line
                     hits[key].add((show, sum(lines.values())))
     rows = classify(hits, heard, phrases, lines, refs, lemma_reading, split, dropped, rescues)
     genre = hand_list(GENRE_WORDS)
-    is_genre = {id(r) for r in rows if any((r["form"], p) in genre for p in r["pos"].split())}  # before forms change
+    is_genre = {id(r) for r in rows if any((r["form"], p) in genre for p in r["pos"].split())}  # before forms are renamed
     rows = add_meanings(rows, refs[1], lemma_reading)
     write([r for r in rows if id(r) not in is_genre], out, lines, dropped)
     write_rows([r for r in rows if id(r) in is_genre], out.rsplit(".", 1)[0] + ".genre.tsv")
@@ -215,32 +203,32 @@ def main(subs, ref, out, rescue=""):
     print("song lines left out per show (lines with Japanese):", dict(lyrics))
 
 
-def hand_rows(path):  # the tab-separated fields of each line that isn't blank or a comment
-    return [r.split("\t") for r in open(path, encoding="utf-8").read().splitlines() if r and not r.startswith("#")]
+def hand_rows(path):  # the fields of each row below the header
+    return [r.split("\t") for r in open(path, encoding="utf-8").read().splitlines()[1:] if r]
 
 
-def hand_list(path, pos=None):  # {(form, pos)}, or the forms with this part of speech; lines are "form<TAB>pos<TAB># why"
+def hand_list(path, pos=None):  # {(form, pos)}, or the forms with this part of speech
     rows = hand_rows(path)
     return {(r[0], r[1]) for r in rows} if pos is None else {r[0] for r in rows if r[1] == pos}
 
 
-def add_meanings(rows, entries, lemma_reading):  # meaning = the hand-picked JMdict sense(s), see senses.tsv
-    picks = {r[0]: [f for f in r[1:] if not f.startswith("#")] for r in hand_rows(SENSES)}
+def add_meanings(rows, entries, lemma_reading):  # meaning = the JMdict sense(s) picked in senses.tsv
+    picks = {r[0]: r[1:4] for r in hand_rows(SENSES)}
     missing = [r["form"] for r in rows if r["form"] not in picks]
     if missing:
         sys.exit(f"no sense picked in senses.tsv for {len(missing)} rows: {' '.join(missing)}")
     by_id, used = {w["id"]: w for ws in entries.values() for w in ws}, {r["form"] for r in rows}
     for r in rows:
-        eid, ns, *shown = picks[r["form"]]
+        eid, ns, shown = picks[r["form"]]
         w, ns = by_id.get(eid), ns.split(",")
         if not w or not all(n.isdigit() and 1 <= int(n) <= len(w["sense"]) for n in ns):
             sys.exit(f"senses.tsv: no sense {','.join(ns)} in JMdict entry {eid} (row {r['form']})")
         senses = [w["sense"][int(n) - 1] for n in ns]
         r.update(meaning=" / ".join("; ".join(g["text"] for g in s["gloss"]) for s in senses),
                  meaning_tags=" ".join(dict.fromkeys(t for s in senses for t in s["misc"] + s["dialect"])))
-        if shown:  # the form shown in place of the tokenizer's (どん -> どんだけ)
-            r.update(form=shown[0], reading=lemma_reading(shown[0]),
-                     link="https://jisho.org/search/" + urllib.parse.quote(shown[0]))
+        if shown:  # shown in place of the tokenizer's form (どん -> どんだけ)
+            r.update(form=shown, reading=lemma_reading(shown),
+                     link="https://jisho.org/search/" + urllib.parse.quote(shown))
         elif KANJI.search(r["form"]) and r["reading"] not in {hira(k["text"]) for k in w["kana"]}:
             # Sudachi's reading of a lone kanji can be its reading in compounds (民: みん); the entry's is たみ
             r["reading"] = hira(w["kana"][0]["text"])
@@ -312,7 +300,7 @@ def drop_reason(key, rd, refs, lemma_reading, split, rescues):  # -> (why droppe
     if found and not (rescue == "after a verb" or rescue and found == "spelling variant"):
         return found, ""
     rescued = rescue if found else ""
-    # JMdict lists キレる apart from 切れる (a separate word), while ヤツ sits in the entry for 奴.
+    # JMdict lists キレる apart from 切れる, but ヤツ under 奴.
     own_entry = lemma in entries and not any(normal in {f["text"] for f in w["kanji"] + w["kana"]} for w in entries[lemma])
     if normal != lemma and on_jlpt(normal, waller, entries, jlpt_readings):
         for nrd in sorted(jlpt_readings.get(normal, set()) | {lemma_reading(normal)}):
@@ -341,8 +329,8 @@ def sounds_different(form, normal, refs, lemma_reading):  # ねえ for ない: t
 
 
 def merge_spellings(groups, refs, lemma_reading, merged):
-    # ねえ is filed under ない and under 無い: two spellings of one JMdict word, so one row. Slurred rows only
-    # (ねえ "older sister" and ねえ "hey" are different words that share a sound).
+    # ねえ under ない and under 無い is one JMdict word, so one row. Slurred rows only: ねえ (older sister)
+    # and ねえ (hey) are different words.
     owner = {}  # (squashed reading, rescue, JMdict id) -> the group that keeps it
     for key in sorted(groups, key=lambda k: (-len(groups[k]["lines"]), k)):
         normal, sq, rescue = key
@@ -409,7 +397,7 @@ def make_row(key, g, lines, refs, lemma_reading, dropped, hand):
     kept_by = [k for k, ok in (("slurred", normal_form), ("register", REGISTER & set(tags)),
                                ("uncommon", not is_common(form, rd, refs[1])), (rescued, rescued)) if ok]
     pos = g["pos"].most_common(1)[0][0]
-    why = ("common word, no label" if not kept_by  # an everyday dictionary word with no register label (顔, 霊, 魔力)
+    why = ("common word, no label" if not kept_by  # 顔, 霊, 魔力
            else "interjection, only uncommon" if pos == "感動詞" and kept_by == ["uncommon"] and (form, pos) not in allowed  # うっ, ハハハ, へえ
            else "blocklist" if (form, pos) in blocked else None)
     if why:
@@ -423,7 +411,7 @@ def make_row(key, g, lines, refs, lemma_reading, dropped, hand):
                 group=g)
 
 
-def merge_same_form(rows, lines):  # ねえ as 感動詞 and 名詞 become one row: lines counted once, everything else unioned
+def merge_same_form(rows, lines):  # ねえ as 感動詞 and 名詞 become one row
     by_form = defaultdict(list)
     for r in sorted(rows, key=lambda r: -r["count"]):
         by_form[r["form"]].append(r)
@@ -446,11 +434,11 @@ def merge_same_form(rows, lines):  # ねえ as 感動詞 and 名詞 become one r
     return out
 
 
-def matching_entries(form, rd, entries):  # the JMdict entries with this spelling and reading
+def matching_entries(form, rd, entries):
     return [w for w in entries.get(form, []) if any(hira(k["text"]) == rd for k in w["kana"])] or entries.get(form, [])
 
 
-def labels(form, rd, entries):  # misc tags of those entries
+def labels(form, rd, entries):
     return sorted({m for w in matching_entries(form, rd, entries) for s in w["sense"] for m in s["misc"]})
 
 
@@ -460,8 +448,8 @@ def is_common(form, rd, entries):  # jmdict-simplified "common": a news1/ichi1/s
 
 def write_rows(rows, out):
     with open(out, "w", encoding="utf-8", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=FIELDS, delimiter="\t", extrasaction="ignore")  # no reason columns
-        w.writeheader()  # a list with no rows still gets its header
+        w = csv.DictWriter(f, fieldnames=FIELDS, delimiter="\t", extrasaction="ignore")  # leaves out kind, kept_by
+        w.writeheader()
         w.writerows(rows)
     print(f"{len(rows)} rows -> {out}")
 

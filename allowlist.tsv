@@ -1,5 +1,4 @@
-# Interjections kept by hand: the rule that drops interjections kept only as "uncommon" (sounds like うっ, へえ) would drop these words.
-# form	part of speech (Sudachi)	# why
-こら	感動詞	# "hey!" (scolding), a word a learner hears and needs
-やれ	感動詞	# "good grief" (やれやれ), a word, not a sound
-やあ	感動詞	# "hi there", a greeting word
+form	pos	why
+こら	感動詞	「hey!」 (scolding), a word a learner hears and needs
+やれ	感動詞	「good grief」 (やれやれ), a word, not a sound
+やあ	感動詞	「hi there」, a greeting word

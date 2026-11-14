@@ -9,8 +9,14 @@ lines. `blocklist.tsv`, `allowlist.tsv`, `genre_words.tsv`, `senses.tsv` and
 `normal_forms.tsv` hold the hand edits, with a reason on each line. A few rows were removed
 from the published lists after the last run, so a rerun gives a slightly longer list.
 
+- `blocklist.tsv`: rows we left out; part of speech `chunk` marks a textbook chunk such as ません, and we don't count the words inside it.
+- `allowlist.tsv`: interjections we kept that the rule for sounds (うっ, へえ) would drop.
+- `genre_words.tsv`: ordinary topic words, moved to `out.genre.tsv`.
+- `senses.tsv`: the JMdict sense each row is heard in (a row with none stops the run), plus an optional form to show in place of the tokenizer's.
+- `normal_forms.tsv`: the textbook form a slurred row stands for, where Sudachi's is wrong; `-` means the row isn't slurred.
 
-## Running it
+
+## Usage
 
 The subtitles aren't included. The script reads `<subtitle dir>/raw/<show>/<episode>.bin` (SRT).
 
