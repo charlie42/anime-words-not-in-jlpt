@@ -1,0 +1,102 @@
+# The JMdict sense each output row is heard in, picked by hand from its phrases and subtitle lines.
+# The script prints that sense's English as `meaning` and its own labels as `meaning_tags`; a row with no pick stops the run.
+# Two senses (1,2) are both shown. The optional 4th field is the form shown in place of the tokenizer's (どん -> どんだけ).
+# form	JMdict entry id	sense number(s) (1 = first)	[form shown]	# why
+ねえ	2841117	2	# slurred ない "not" (知らねえ, じゃねえか); the ね "hey" sense is the minor use
+ぞ	2029130	1	# 行くぞ, 生きてるぞ: adds force to a statement
+ぬ	2441300	1	# heard as ん: 分からん, すまん, しれん
+ぜ	2834812	1	# 行こうぜ, いいぜ: light emphasis
+あんた	1979920	1	# あんたは, あんたが: you
+あいつ	1483160	1	# あいつは, あいつら: that guy
+こいつ	1579070	1	# こいつは, こいつら: this guy
+じゃん	2135280	1	# いいじゃん, 簡単じゃん: isn't it?
+ちまう	2210750	1	# なっちまった, 過ぎちまった: ちゃう, to do completely
+あにき	1249930	2	# Dororo's あにき for Hyakkimaru, who is not his brother: big bro
+やがる	1012740	1	# しやがって, 盗みやがった
+っす	2269410	1	# いいっす, マジっスか: です
+てく	2831063	1	# 持ってく, 連れてって: ていく (JMdict's only sense)
+かしら	1002800	1	# いいかしら, どうかしら: I wonder
+てめえ	2076920	1	# てめえ!, てめえは: you
+そいつ	1006600	1	# そいつは, そいつら: that guy
+わし	2015370	1	# わしの, わしは, ワシの: I (old man's)
+マジ	1127680	1	# マジで, マジか: serious
+すげえ	2722660	1	# すげえ, すっげえ: incredible
+貴様	1223620	1	# 貴様!, 貴様ら: you (hostile)
+野郎	1537700	2	# この野郎, バカ野郎: bastard
+そりゃ	2134680	2	# そりゃそうだ: that is (それは)
+やっぱ	2772780	4	# やっぱ キャンプ椅子 いいよな: as expected
+クソ	1504900	1	# クソ…, くそ!: damn it
+お姉ちゃん	2222580	1	# K-On's Ui to Yui: older sister
+こら	1004780	1	# こら!, こらこら, 待て こら: hey!
+ガキ	1197980	1	# このガキ: brat
+ヤバい	1012840	2	# ヤバい ヤバい, ヤバいよ おなか!, うちの会社 ヤバいかもな: awful, oh no (dangerous is the minor use)
+お兄ちゃん	1001840	1	# Sakura's and Sayu's お兄ちゃん: older brother
+じい	2404900	1	# じいちゃん (Itadori's, Denji's grandfather); じいさん also "old man" in Hunter x Hunter
+おやじ	1365330	1	# おやじがハンターなんだ, ただいま おやじ: one's father
+なり	1536290	1	なる	# 華麗なる, 完全なる: literary copula, heard as なる
+ビビる	2096500	1	# ビビってる, ビビんなよ: to lose one's nerve
+姉ちゃん	2190820	1	# 姉ちゃんの, Dororo's 姉ちゃん (Mio, an older girl he looks up to)
+よっしゃ	2740860	1	# よっしゃー!
+我	1196670	1	# 我ら, 我ながら: I
+いろんな	1609270	1	# いろんな人: various
+んな	2835613	1	# んなこと, んなわけ: such
+こりゃ	2176280	1	# なんだ こりゃ, こりゃすげえ: as for this (これは)
+モテる	2640260	1	# モテたい, モテない: to be popular
+おら	2080360	1	# おらの山, おらたち: I (rural); the battle cry おら! has no JMdict sense
+パパ	1102140	1	# パパが, パパの: dad
+ばあ	2009465	1	# ばあちゃん (grandma); ばあさん also "old woman"
+やれ	1012990	1	# やれやれ: oh dear
+ありゃ	2827815	3	# ありゃ ワナだ: as for that (あれは); the "huh?" ありゃ is the minor use
+うるせえ	2847957	1	# うるせえ!, うるせえな: shut up
+って	2086960	1	# 早く寝ろって, しゃべれって: the sentence-final quote, (someone) said; not the rarer "I already told you"
+みてえ	2016410	1	# 夢みてえな, 犬みてえに: みたい, -like (JMdict has no みてえ spelling)
+やあ	2089490	1	# やあ クラピカ: hi
+彼氏	1483140	1	# 彼氏と, 彼氏に: boyfriend
+母さん	1609470	1	# 母さんが: mother
+食らう	1592410	2	# 食らえ!, 直撃 くらった: to receive (a blow)
+ムカつく	1012320	1	# ムカつくんだ: to feel irritated
+おめえ	2848635	1	# おめえは: you
+雑魚	1299360	2	# 雑魚は任せた: small fry
+とっとと	2009130	1	# とっとと働け: right away
+お嬢様	1694880	2	# ベッキーお嬢様, お城の お嬢様: young lady
+でく	2831063	1	# 死んでく, 飛んでく: でいく (JMdict's only sense)
+どん	2243590	1	どんだけ	# どんだけ: how much (the entry is どんだけ; every main hit is どんだけ)
+おうち	2213230	2	# おうちに帰りたい: (my) home
+バッチリ	1010280	1	# バッチリです: perfectly
+ボウズ	1519080	3	# 悪いな ボウズ: boy, sonny
+ぶっ殺す	1603170	1	# ぶっ殺すぞ: to kill
+ハゲ	1455410	2	# ハゲで, ハゲ教頭: baldy (the Apothecary hits 禿 are kamuro, a different word)
+下手クソ	1185250	1	# お前が下手クソなのは: lousy
+いっちょ	1164780	5	# もういっちょ, いっちょ上がり: one (more) round
+っちゅう	2757620	1	# 持ってるっちゅうこっちゃ: という
+アホ	1586600	1	# アホか: idiot
+キモい	2013005	1	# キモい!: gross
+めっちゃ	2183440	1	# めっちゃバカ, めちゃ寒い: extremely
+キレる	2119260	1	# キレんなよ: to snap
+ヅラ	1609595	1	# 教頭のヅラ: wig (たぬきヅラ is a different word, 面)
+ヘマ	1011400	1	# ヘマしちゃダメだ: blunder
+兄ちゃん	2275890	1,2	# 兄ちゃんたちに叱られる (older brother), なあ兄ちゃんよ (young man): close split, both shown
+# genre_words.tsv rows
+超能力	1429540	1	# psychic powers (Mob Psycho)
+姫	1602150	1	# お姫様: princess
+入部	1791750	1	# 入部する: joining a club
+封印	1499610	1	# 封印解除: seal
+部室	1954560	1	# clubroom
+最悪	1293720	1	# 最悪の場合: worst
+討伐	1449970	1	# 熊討伐: subjugation
+ブタ	1457390	1	# ブタの種類 (Hunter x Hunter cooking exam): pig
+オニギリ	1001620	1	# rice ball
+この世	2002260	1	# この世で最強: this world
+主	1324960	1	# 醍醐の主: master (沼のヌシ is the guardian-spirit sense)
+ワナ	1570620	2	# これはワナよ: trap, trick
+バトル	2163480	1	# battle
+ごっこ	1004950	1	# 月面着陸ごっこ: playing at
+民	1528570	1	# 民を地獄に: the people, read たみ (JMdict's みん entry is a suffix)
+クリア	1044620	3	# 試験をクリア: getting through
+スイーツ	2188070	1	# sweets
+から揚げ	1590640	1	# fried chicken
+セリフ	1577270	1	# こっちのセリフ: (spoken) line
+まんじゅう	1574480	1	# manjū
+牙	1197030	1	# fang
+さらす	1593910	1	# 危険にさらされる: to expose
+アイス	1013970	2	# アイス食べ放題: ice cream
