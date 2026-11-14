@@ -11,12 +11,13 @@ MIN_SHOWS, MIN_RATE = 4, 0.15         # in 4+ shows, at 0.15+ lines per 1,000 (a
 CAP = 3000                            # the first 3,000 lines with Japanese per show, episodes in order
 SKIP_POS = {"補助記号", "空白", "記号", "接頭辞", "接尾辞"}
 SKIP_SUB = {"固有名詞": "names", "数詞": "numbers"}
-# Linking particles (が, を, に, て) are grammar. Sentence-final ones (ぜ, ぞ, わ) stay.
-GRAMMAR_PARTICLES = {"格助詞", "係助詞", "副助詞", "接続助詞", "準体助詞"}
-# Waller's lists have no grammar, so we drop the N5-N4 auxiliaries and grammar words by name.
+# Waller's lists are vocabulary lists, so the list is words only: no particles (が, ぞ, じゃん),
+# no row that is mostly an auxiliary (ちまう, っす), no word fused with a particle (そりゃ = それは: no vocabulary
+# list has word + particle combinations), and nothing that stands for these textbook grammar words.
 TEXTBOOK_GRAMMAR = {"だ", "です", "ます", "た", "ない", "う", "よう", "たい", "れる", "られる", "せる", "させる",
                     "らしい", "そう", "みたい", "たがる", "しれる"}
-# We keep a row only if it is slurred, has one of these labels, or its JMdict entry isn't marked common.
+# We keep a row only if it is slurred, has one of these labels, its JMdict entry isn't marked common,
+# or it is on allowlist.tsv.
 REGISTER = {"col", "sl", "vulg", "derog", "male", "fem", "rude", "arch", "dated", "fam", "net-sl", "joc"}
 # Optional 4th argument: keep a slang spelling or use of a JLPT word.
 RESCUES = {"katakana": "katakana spelling",  # ナメる for 舐める: Waller spells it in kanji or hiragana
@@ -26,8 +27,9 @@ PHRASE_BREAKS, PHRASE_ENDINGS = {"補助記号", "空白", "記号"}, {"助詞",
 HERE = os.path.dirname(os.path.abspath(__file__))
 BLOCKLIST, ALLOWLIST = os.path.join(HERE, "blocklist.tsv"), os.path.join(HERE, "allowlist.tsv")
 GENRE_WORDS, SENSES = os.path.join(HERE, "genre_words.tsv"), os.path.join(HERE, "senses.tsv")
-NORMAL_FORMS = os.path.join(HERE, "normal_forms.tsv")
-FIELDS = ["form", "most_heard_as", "other_forms", "normal_form", "reading", "pos", "meaning",
+NORMAL_FORMS, CONTEXTS = os.path.join(HERE, "normal_forms.tsv"), os.path.join(HERE, "contexts.tsv")
+MEANINGS = os.path.join(HERE, "meanings.tsv")
+FIELDS = ["form", "most_heard_as", "other_forms", "normal_form", "reading", "meaning",
           "meaning_tags", "per_1000_lines", "count", "phrases", "shows", "link"]
 TAG = re.compile(r"\{[^}]*\}|<[^>]*>|[（(][^)）]*[)）]|\[[^\]]*\]|［[^］]*］|【[^】]*】")
 JP = re.compile(r"[ぁ-ヿ一-鿿々]")
@@ -154,8 +156,13 @@ def main(subs, ref, out, rescue=""):
         return [(m.dictionary_form(), m.part_of_speech()[0]) for m in tok.tokenize(lemma, SplitMode.A)]
 
     lines, hits, dropped, heard = Counter(), defaultdict(set), defaultdict(Counter), defaultdict(Counter)
-    phrases = defaultdict(Counter)  # key -> phrase -> lines containing it
+    phrases = defaultdict(lambda: defaultdict(set))  # key -> phrase -> the lines containing it
     chunks, last_ep, lyrics = hand_list(BLOCKLIST, "chunk"), {}, Counter()
+    contexts = defaultdict(list)  # form -> [(part of speech or *, rule, value)]
+    for form, pos, rule, value, _ in hand_rows(CONTEXTS):
+        if rule not in CONTEXT_RULES:
+            sys.exit(f"contexts.tsv: unknown rule {rule!r} (row {form})")
+        contexts[form].append((pos, rule, value))
     for show_dir in sorted(glob.glob(f"{subs}/raw/*")):
         show = os.path.basename(show_dir)
         episodes = {int(os.path.basename(p)[:-4]): read_episode(p) for p in glob.glob(f"{show_dir}/*.bin")}
@@ -180,7 +187,7 @@ def main(subs, ref, out, rescue=""):
                            or ("unknown to Sudachi" if m.is_oov() else None))  # mostly laughs and gasps
                     after_verb = pos[0] == "動詞" and prev is not None and prev[0] == "動詞" and prev[5].startswith("連用形")
                     prev = pos
-                    why = why or ("in a textbook chunk" if inside(m) else None)
+                    why = why or ("in a blocklist chunk" if inside(m) else None) or out_of_context(ms, i, contexts)
                     if why:
                         dropped[why][m.surface()] += 1
                         continue
@@ -188,11 +195,12 @@ def main(subs, ref, out, rescue=""):
                     seen.add(key)
                     heard[key][m.surface()] += 1
                     said.add((key, phrase(ms, i)))
-                for key, p in said:  # counted once per line
-                    phrases[key][p] += 1
                 lines[show] += bool(JP.search(line))  # the denominator counts lines with Japanese
+                line_id = (show, sum(lines.values()))
                 for key in seen:  # counted once per line
-                    hits[key].add((show, sum(lines.values())))
+                    hits[key].add(line_id)
+                for key, p in said:
+                    phrases[key][p].add(line_id)
     rows = classify(hits, heard, phrases, lines, refs, lemma_reading, split, dropped, rescues)
     genre = hand_list(GENRE_WORDS)
     is_genre = {id(r) for r in rows if any((r["form"], p) in genre for p in r["pos"].split())}  # before forms are renamed
@@ -213,7 +221,7 @@ def hand_list(path, pos=None):  # {(form, pos)}, or the forms with this part of 
 
 
 def add_meanings(rows, entries, lemma_reading):  # meaning = the JMdict sense(s) picked in senses.tsv
-    picks = {r[0]: r[1:4] for r in hand_rows(SENSES)}
+    picks, own = {r[0]: r[1:4] for r in hand_rows(SENSES)}, {r[0]: r[1:3] for r in hand_rows(MEANINGS)}
     missing = [r["form"] for r in rows if r["form"] not in picks]
     if missing:
         sys.exit(f"no sense picked in senses.tsv for {len(missing)} rows: {' '.join(missing)}")
@@ -226,17 +234,41 @@ def add_meanings(rows, entries, lemma_reading):  # meaning = the JMdict sense(s)
         senses = [w["sense"][int(n) - 1] for n in ns]
         r.update(meaning=" / ".join("; ".join(g["text"] for g in s["gloss"]) for s in senses),
                  meaning_tags=" ".join(dict.fromkeys(t for s in senses for t in s["misc"] + s["dialect"])))
-        if shown:  # shown in place of the tokenizer's form (どん -> どんだけ)
-            r.update(form=shown, reading=lemma_reading(shown),
+        if r["form"] in own:  # our own English and tags, where no JMdict sense says it right
+            r.update(meaning=own[r["form"]][0] or r["meaning"], meaning_tags=own[r["form"]][1])
+        if shown:  # shown in place of the tokenizer's form (やれ -> やれやれ)
+            r.update(form=shown, most_heard_as=shown, reading=lemma_reading(shown),
                      link="https://jisho.org/search/" + urllib.parse.quote(shown))
         elif KANJI.search(r["form"]) and r["reading"] not in {hira(k["text"]) for k in w["kana"]}:
             # Sudachi's reading of a lone kanji can be its reading in compounds (民: みん); the entry's is たみ
             r["reading"] = hira(w["kana"][0]["text"])
     print("unused senses.tsv rows:", " ".join(sorted(set(picks) - used)) or "none")
+    print("unused meanings.tsv rows:", " ".join(sorted(set(own) - used)) or "none")
     return rows
 
 
-def in_chunk(line, chunks):  # -> test: is this token inside a heard chunk (ん in すみません)?
+def next_is(ms, i, values):  # the next token's text or part of speech is one of these
+    return i + 1 < len(ms) and bool({ms[i + 1].surface(), ms[i + 1].part_of_speech()[0]} & set(values.split()))
+
+
+def attached(ms, i):  # right after a word, with no space or mark between; a stretch mark (しゃー, や～) is part of the word
+    return i > 0 and (ms[i - 1].part_of_speech()[0] not in PHRASE_BREAKS or ms[i - 1].surface() in STRETCH_MARKS)
+
+
+STRETCH_MARKS = set("ー～〜")
+CONTEXT_RULES = {"only before": lambda ms, i, v: not next_is(ms, i, v),  # contexts.tsv rule -> token i breaks it
+                 "not before": next_is,
+                 "not after": lambda ms, i, v: attached(ms, i)}
+
+
+def out_of_context(ms, i, contexts):  # a contexts.tsv form counts only where its rules allow
+    pos, rules = ms[i].part_of_speech()[0], contexts.get(hira(ms[i].dictionary_form()), [])
+    if any(p in ("*", pos) and CONTEXT_RULES[rule](ms, i, value) for p, rule, value in rules):
+        return "outside its context (contexts.tsv)"
+    return None
+
+
+def in_chunk(line, chunks):  # -> test: is this token inside a heard chunk (ござる in ございます)?
     spans = [(i, i + len(c)) for c in chunks for i in range(len(line)) if line.startswith(c, i)]
     return lambda m: any(a <= m.begin() and m.end() <= b for a, b in spans)
 
@@ -246,6 +278,14 @@ def finish(seg, e):  # extend to the end of a conjugated word: なっちまっ -
             not seg[e].part_of_speech()[5].startswith(("終止形", "命令形", "連体形", "*")):
         e += 1
     return e
+
+
+def name_piece(seg, k, step):  # token k is a noun cut from a name that goes on past it: 奉 of 奉太郎, 白 of 白鳥沢
+    return 0 <= k + step < len(seg) and seg[k].part_of_speech()[0] == "名詞" and seg[k + step].part_of_speech()[1] == "固有名詞"
+
+
+def filler_start(seg, k):  # token k is a "filler" that starts the next word: お of おさらば (not the stretch in くそお)
+    return k + 1 < len(seg) and seg[k].part_of_speech()[1] == "フィラー" and seg[k + 1].part_of_speech()[0] not in PHRASE_ENDINGS
 
 
 def phrase(ms, i):  # the short chunk around token i, as written: そうっす, なっちまった, こいつは, いるんだ
@@ -259,9 +299,9 @@ def phrase(ms, i):  # the short chunk around token i, as written: そうっす, 
     elif tags[i] in PHRASE_ENDINGS and head < i:  # an ending: from the word it hangs on (そう + っす)
         a, b = head, i
     elif i + 1 < len(seg):  # a word: plus what follows it (こいつ + は, 勝手に + しろ)
-        a, b = i, i + 1
+        a, b = (i, i) if name_piece(seg, i + 1, 1) or filler_start(seg, i + 1) else (i, i + 1)
     else:  # a word at the end of its clause: plus the word before it
-        a, b = i - 1, i
+        a, b = (i, i) if name_piece(seg, i - 1, -1) else (i - 1, i)
     if b + 1 < len(seg) and tags[b + 1] == "助動詞" and seg[b].part_of_speech()[5] == "*":
         b += 1  # いるん + だ
     b = finish(seg, b)
@@ -289,18 +329,17 @@ def rescue_rule(lemma, normal, pos, after_verb, waller, entries, rescues):
 
 
 def drop_reason(key, rd, refs, lemma_reading, split, rescues):  # -> (why dropped or None, rescue rule that kept it)
-    lemma, normal, pos, sub, after_verb = key
+    lemma, normal, pos, _, after_verb = key
     waller, entries, jlpt_readings, jlpt_squashed = refs
-    if sub in GRAMMAR_PARTICLES:
-        return "grammar particles", ""
-    if lemma in TEXTBOOK_GRAMMAR:
-        return "textbook grammar", ""
+    if pos == "助詞" or lemma in TEXTBOOK_GRAMMAR:
+        return "grammar", ""
     rescue = rescue_rule(lemma, normal, pos, after_verb, waller, entries, rescues)
     found = on_jlpt(lemma, waller, entries, jlpt_readings, rd)
     if found and not (rescue == "after a verb" or rescue and found == "spelling variant"):
         return found, ""
     rescued = rescue if found else ""
-    # JMdict lists キレる apart from 切れる, but ヤツ under 奴.
+    # JMdict lists キレる apart from 切れる, but ヤツ under 奴. An own entry can still be Waller's word in the same
+    # sense (モテる is 持てる, 「to be popular」); blocklist.tsv leaves those out.
     own_entry = lemma in entries and not any(normal in {f["text"] for f in w["kanji"] + w["kana"]} for w in entries[lemma])
     if normal != lemma and on_jlpt(normal, waller, entries, jlpt_readings):
         for nrd in sorted(jlpt_readings.get(normal, set()) | {lemma_reading(normal)}):
@@ -342,8 +381,9 @@ def merge_spellings(groups, refs, lemma_reading, merged):
         if target is None:
             owner.update({(sq, rescue, i): key for i in ids})
             continue
-        for field in ("forms", "pos", "heard", "phrases"):
+        for field in ("forms", "pos", "heard"):
             groups[target][field].update(g[field])
+        add_phrases(groups[target]["phrases"], g["phrases"])
         groups[target]["lines"] |= g["lines"]
         groups[target]["normals"].update(g["normals"])
         merged.append(f"{normal} into {target[0]}")
@@ -352,7 +392,7 @@ def merge_spellings(groups, refs, lemma_reading, merged):
 
 def classify(hits, heard, phrases, lines, refs, lemma_reading, split, dropped, rescues):
     groups = defaultdict(lambda: {"lines": set(), "forms": Counter(), "pos": Counter(), "heard": Counter(),
-                                  "normals": Counter(), "phrases": Counter()})
+                                  "normals": Counter(), "phrases": defaultdict(set)})
     for key, where in hits.items():
         lemma, normal, pos = key[:3]
         rd = lemma_reading(lemma)
@@ -365,15 +405,25 @@ def classify(hits, heard, phrases, lines, refs, lemma_reading, split, dropped, r
         for field, value in (("forms", lemma), ("pos", pos), ("normals", normal)):
             g[field][value] += len(where)
         g["heard"].update(heard[key])
-        g["phrases"].update(phrases[key])
+        add_phrases(g["phrases"], phrases[key])
     merged = []
     merge_spellings(groups, refs, lemma_reading, merged)
     print("merged rows:", "; ".join(merged) or "none")
     hand = hand_list(BLOCKLIST), hand_list(ALLOWLIST), {r[0]: r[1].strip("-") for r in hand_rows(NORMAL_FORMS)}
     rows = [r for key, g in groups.items() if (r := make_row(key, g, lines, refs, lemma_reading, dropped, hand))]
+    rows = [r for r in rows if not grammar(r, split, dropped)]  # before the merge: ねえ (= ない) and ねえ (hey) are two words
     print("rows before same-form merge:", len(rows))
     rows = [r for r in merge_same_form(rows, lines) if above_threshold(r, dropped)]
     return sorted(rows, key=lambda r: (-r["per_1000_lines"], r["form"], r["pos"]))
+
+
+def grammar(r, split, dropped):  # per row before the same-form merge, which may hold another word with this spelling
+    normals, pos = r["normal_form"].split(), r["pos"].split()[0]
+    fused = pos != "感動詞" and any(len(p := split(n)) > 1 and p[-1][1] == "助詞" for n in normals)  # not ちわー (今日は)
+    why = "grammar" if pos == "助動詞" or set(normals) & TEXTBOOK_GRAMMAR else "word + particle" if fused else None
+    if why:
+        dropped[why][r["form"]] += r["count"]
+    return bool(why)
 
 
 def above_threshold(r, dropped):  # checked after the same-form merge, on the merged row's shows and unrounded rate
@@ -393,22 +443,31 @@ def make_row(key, g, lines, refs, lemma_reading, dropped, hand):
     blocked, allowed, fixed_normals = hand
     normal_form = fixed_normals.get(form, " ".join(n for n, _ in g["normals"].most_common()
                                                  if sounds_different(form, n, refs, lemma_reading)))
-    tags = labels(form, rd, refs[1])
-    kept_by = [k for k, ok in (("slurred", normal_form), ("register", REGISTER & set(tags)),
-                               ("uncommon", not is_common(form, rd, refs[1])), (rescued, rescued)) if ok]
     pos = g["pos"].most_common(1)[0][0]
+    kept_by = ["allowlist"] if (form, pos) in allowed else [  # kept by hand, so no other entry's labels are asked
+        k for k, ok in (("slurred", normal_form), ("register", REGISTER & set(labels(form, rd, refs[1]))),
+                        ("uncommon", not is_common(form, rd, refs[1])), (rescued, rescued)) if ok]
     why = ("common word, no label" if not kept_by  # 顔, 霊, 魔力
-           else "interjection, only uncommon" if pos == "感動詞" and kept_by == ["uncommon"] and (form, pos) not in allowed  # うっ, ハハハ, へえ
+           else "interjection, only uncommon" if pos == "感動詞" and kept_by == ["uncommon"]  # うっ, ハハハ, へえ
            else "blocklist" if (form, pos) in blocked else None)
     if why:
         dropped[why][form] += len(g["lines"])
         return None
-    top = sorted(g["phrases"].items(), key=lambda x: (-x[1], x[0]))[:3]
     return dict(form=form, kind=kept_by[0], kept_by=" ".join(kept_by), most_heard_as=g["heard"].most_common(1)[0][0],
                 other_forms=" ".join(f for f in g["forms"] if f != form), normal_form=normal_form, reading=rd,
                 pos=pos, per_1000_lines=round(rate, 2), count=len(g["lines"]),
-                phrases=" ".join(f"{p}({n})" for p, n in top), shows=len(shows), link="https://jisho.org/search/" + urllib.parse.quote(form),
+                phrases=top_phrases(g["phrases"]), shows=len(shows), link="https://jisho.org/search/" + urllib.parse.quote(form),
                 group=g)
+
+
+def add_phrases(into, phrases):  # phrase -> line ids: a line is counted once, even under two keys or two rows
+    for p, ids in phrases.items():
+        into[p] |= ids
+
+
+def top_phrases(phrases):  # the 3 phrases in the most lines: こいつ(64) こいつは(50) こいつら(41)
+    top = sorted(((p, len(ids)) for p, ids in phrases.items()), key=lambda x: (-x[1], x[0]))[:3]
+    return " ".join(f"{p}({n})" for p, n in top)
 
 
 def merge_same_form(rows, lines):  # ねえ as 感動詞 and 名詞 become one row
@@ -419,14 +478,15 @@ def merge_same_form(rows, lines):  # ねえ as 感動詞 and 名詞 become one r
     for form, rs in by_form.items():
         r, gs = dict(rs[0]), [x.pop("group") for x in rs]
         g = {"lines": set().union(*(g["lines"] for g in gs)), "pos": sum((g["pos"] for g in gs), Counter()),
-             "heard": sum((g["heard"] for g in gs), Counter()), "phrases": sum((g["phrases"] for g in gs), Counter())}
+             "heard": sum((g["heard"] for g in gs), Counter()), "phrases": defaultdict(set)}
+        for x in gs:
+            add_phrases(g["phrases"], x["phrases"])
         shows = Counter(show for show, _ in g["lines"])
         rate = sum(shows[s] * 1000 / lines[s] for s in lines) / len(lines)
-        top = sorted(g["phrases"].items(), key=lambda x: (-x[1], x[0]))[:3]
         union = lambda col: " ".join(dict.fromkeys(w for x in rs for w in x[col].split()))
         r.update(pos=" ".join(p for p, _ in g["pos"].most_common()), most_heard_as=g["heard"].most_common(1)[0][0],
                  rate=rate, per_1000_lines=round(rate, 2), count=len(g["lines"]),
-                 phrases=" ".join(f"{p}({n})" for p, n in top), shows=len(shows), kept_by=union("kept_by"),
+                 phrases=top_phrases(g["phrases"]), shows=len(shows), kept_by=union("kept_by"),
                  other_forms=union("other_forms"), normal_form=union("normal_form"))
         r["kind"] = r["kept_by"].split()[0]
         r.pop("group", None)
@@ -438,7 +498,7 @@ def matching_entries(form, rd, entries):
     return [w for w in entries.get(form, []) if any(hira(k["text"]) == rd for k in w["kana"])] or entries.get(form, [])
 
 
-def labels(form, rd, entries):
+def labels(form, rd, entries):  # pools every entry with this spelling and reading, not only the row's own word
     return sorted({m for w in matching_entries(form, rd, entries) for s in w["sense"] for m in s["misc"]})
 
 

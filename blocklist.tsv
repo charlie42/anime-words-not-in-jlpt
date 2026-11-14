@@ -2,17 +2,14 @@ form	pos	why
 ん	感動詞	the grunt 「hm?」; kept only by an 「archaic」 label that belongs to the classical auxiliary ん (「will」, from む)
 けど	接続詞	the ordinary short form of けれど (on the lists); 「slurred」 only because the long form is listed
 メール	名詞	everyday loanword (email) missing from the lists; its labels mark 「short for e-mail」 and 「chat message」, not slang
-り	助動詞	tokenizer misfire: the る of おける / 持てる, and stutters (いたど… り)
 バ	名詞	stutter (バ… バカな)
 フ	名詞	breath sound (フ…)
 ろ	名詞	stutters and stretched endings (どろ…ろ, 続けろー)
-ょ	助詞	the small ょ of sounds like うひょ～
 だつ	動詞	misparse of だって (どうだって)
 いでる	動詞	every hit is おいで (come here), which Sudachi files under 出でる
 いえる	動詞	the potential form of 言う written in kana (いえない); the potential-form rule misses it
 もったい	名詞	piece of もったいない (on the lists) that the tokenizer splits off
 とんでも	副詞	piece of とんでもない (on the lists) that the tokenizer splits off
-だあ	助動詞	stretched だ (だあ?) that the stretch rule misses
 ヘヘッ	名詞	laugh the tokenizer calls a noun, so the interjection rule can't see it
 ハハハハハ	名詞	laugh tagged as a noun
 ハハハッ	名詞	laugh tagged as a noun
@@ -20,21 +17,12 @@ form	pos	why
 アハハッ	名詞	laugh tagged as a noun
 フフフフフ	名詞	laugh tagged as a noun
 ぎゃあ	感動詞	scream; kept only by the 「onomatopoeia, slang」 labels
-きゃあ	感動詞	scream; kept only by the 「onomatopoeia, slang」 labels
 ウフフ	感動詞	laugh; kept only by the 「onomatopoeia, female」 labels
-ん	助詞	81 of its 89 lines are the grunt んん (Sudachi reads it as む + ん); the explanatory ん of んだ is grammar and already left out
-わあ	感動詞	cry of surprise (wow, waah): a sound, not a word to learn
-ません	chunk	polite negative (N5); its ん is grammatically the old negative ぬ
 ございます	chunk	polite 「is / there is」 (N4 keigo); ござる is only its old dictionary form
 ございました	chunk	past of ございます (N4 keigo)
-べき	chunk	「should」 (N3 grammar); べし is only its classical dictionary form
 ございません	chunk	polite negative of ございます (N4 keigo)
 勝手に	副詞	ordinary adverb 'on one's own' (勝手 is textbook vocab)
-キャー	感動詞	scream; blocklist already drops きゃあ/ぎゃあ
-ちう	助動詞	catch-all for ちっ: tsk sound and あちっ dominate; real ちった/ちわっス pieces are mixed in under a non-word
-てらっしゃる	助動詞	textbook いってらっしゃい
-べ	助詞	tokenizer fragments: stutters (べ…別に), ケルベロス, やっべえ
-る	助動詞	tokenizer fragment: the name るか (Steins;Gate) and るせえ (clipped うるせえ)
+キャー	感動詞	scream, like ぎゃあ
 ちなみ	名詞	textbook ちなみに (by the way)
 ハハハハッ	名詞	laugh
 フフフフッ	名詞	laugh
@@ -46,13 +34,28 @@ form	pos	why
 フウ	名詞	sigh sound
 ハハハハハッ	名詞	laugh
 限り	名詞	textbook grammar 限り (as long as)
-おじい	chunk	polite grandfather: covers おじいさん, おじいちゃん, おじい様 (textbook)
 おばあ	chunk	polite grandmother: covers おばあさん, おばあちゃん, ひいおばあちゃん (textbook)
-てー	助動詞	mostly a stretched te-form or command (待てー, やめてー, 助けてー), not the slurred たい its normal form claims
-らあ	助詞	rough slurred ending (やらあ = やるわ, I'll do it!) plus tokenizer splits of mumbled lines (きたんら, あのら); no dictionary meaning fits
+おじい	chunk	polite grandfather: covers おじいさん, おじいちゃん, おじい様 (textbook)
+姐	chunk	older sister (姐ちゃん, 姐さん: 8 lines, all in The Apothecary Diaries); Sudachi files it with the call ねえ (hey)
+おねい	chunk	slurred お姉さん (おねいさん: older sister); Sudachi files its ねい with the call ねえ (hey)
 日間	名詞	counter fragment of N日間 (５日間 = いつかかん), not a word; the reading かかん was the tail of the number
-たり	助動詞	mixes Kansai たる (やったる), literary たるや and 一度たりとも; the form たり reads as textbook 〜たり〜たり
 あり	名詞	mixes 「acceptable」 (ありだな), 「huh?」 (あり? そうだっけ) and set phrases (異議あり)
 あり	動詞	same row as あり 名詞
 里	名詞	5 of 12 lines are the name 里樹 split by the tokenizer; without them it is below the cut
-主電源	chunk	主電源 (しゅでんげん, main power) is another word; its 主 is not the ぬし row
+どん	代名詞	the どんだけ row: about a third of its lines are other words (どんと来い, どんまーい, Kansai 喜んどんのは)
+おら	感動詞	mixes the battle cry おら! (no JMdict sense) with Dororo's rural pronoun 「I」; Sudachi's tags don't separate them
+おら	代名詞	same row as おら 感動詞
+ハゲ	名詞	5 of 14 lines are 禿 (kamuro, a courtesan's child attendant), another word; without them it is below the cut
+ばあ	名詞	7 of 18 lines are やり手婆 (brothel madam, 5) or sound effects (2); the other 11 (ばあちゃん, ばあさん) are in 5 shows, below the cut
+ばあ	副詞	same row as ばあ 名詞
+主	名詞	mixed readings and senses: guardian spirit (沼のヌシ), owner or source (依頼主), しゅ in compounds (救世主)
+牙	名詞	8 of 12 lines are the name 天牙 or a mis-tagged 気張る; the fang lines alone are below the cut
+モテる	動詞	the same word as もてる (持てる), which Waller's N1 list has as 「to be well liked, to be popular」; JMdict files the katakana spelling as its own entry
+ボウズ	名詞	「boy, sonny」 is 12 of 15 lines, in 3 shows (Dororo, Hunter x Hunter, Frieren), below the cut; the other 3 are a crew cut (坊主で目つき悪くて, ボウズ頭) and タコ坊主 (an insult for a bald man)
+彼氏	名詞	all 23 lines are 「boyfriend」, a common word with no label; its only label (fam joc) is on JMdict's other sense 「he」
+アイス	名詞	short for アイスクリーム (ice cream), which Waller's N3 list has; its labels (slang, archaic) are on JMdict's other senses, the drug and the usurer
+母さん	名詞	お母さん (mother) without the polite お; a learner who knows N5 お母さん understands it; its only label (col) is on JMdict's other sense 「wife」
+おうち	名詞	polite お + うち (home); Waller's N4 list has うち (内), whose JMdict entry has the sense 「one's home」; a learner who knows うち understands it
+めっちゃ	副詞	1 of its 12 lines is メッチャクチャ (めちゃくちゃ, messed up), the only one in Haikyuu; without it it is in 3 shows, below the 4-show minimum
+ヅラ	名詞	2 of its 12 lines are たぬきヅラ (面, raccoon-dog face), not a wig; without them it is in 10 lines, below the cut
+まんじゅう	名詞	2 of its 12 lines are おしくらまんじゅう (a children's pushing game), not the bun; without them it is in 10 lines, below the cut

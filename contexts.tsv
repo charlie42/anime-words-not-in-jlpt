@@ -1,0 +1,9 @@
+form	pos	rule	value	why
+やれ	*	only before	やれ	counted only as やれやれ (good grief); a lone やれ is mostly the command 「do it!」 (やれ！ モブ！)
+んな	*	only before	名詞	counted only before a noun (んなこと, んなわけ = そんなこと, そんなわけ); elsewhere it is ざけんな, 落ち着いてんな, stretched み～んな or a tokenizer split
+ねえ	名詞	not after	a word	the call 「hey」 starts a line or follows a space or mark; right after a word it is ない (しゃーねえ, 興味ねえっつうの) or the ending ね (ええねえ)
+ねえ	感動詞	not after	a word	same rule as ねえ 名詞
+ねえ	名詞	not before	助動詞	before an auxiliary it is ない (大したこと ねえじゃねえか, わけ ねえだろうが)
+ねえ	感動詞	not before	助動詞	same rule as ねえ 名詞
+やあ	感動詞	not after	a word	stuck to other sounds it is a yell (んやああああ), not 「hi」
+やあ	感動詞	not before	！ ～ 〜 !	before ！ or ～ it is a yell (ええいっ やあ！, うっ… やあ！, やあ～！) or いや (捨てたら やあ～！), not 「hi」
