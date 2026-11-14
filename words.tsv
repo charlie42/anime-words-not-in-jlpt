@@ -43,7 +43,7 @@ form	most_heard_as	other_forms	normal_form	reading	pos	meaning	meaning_tags	per_
 やあ	やあ			やあ	感動詞	yo!; hello there!; hi!		0.34	25	やあ(20) やああああ(1) やあやあ(1)	14	https://jisho.org/search/%E3%82%84%E3%81%82
 彼氏	彼氏			かれし	名詞	boyfriend		0.32	23	彼氏と(8) 彼氏に(4) の彼氏(2)	9	https://jisho.org/search/%E5%BD%BC%E6%B0%8F
 母さん	母さん			かあさん	名詞	mother		0.31	23	母さんが(5) 母さんの(5) 母さんを(4)	7	https://jisho.org/search/%E6%AF%8D%E3%81%95%E3%82%93
-食らう	食らう	喰らう くらう		くらう	動詞	to eat; to drink; to wolf; to knock back / to receive (e.g. a blow)	vulg	0.31	23	喰らわせた(2) 食らうの(2) 食らえ(2)	11	https://jisho.org/search/%E9%A3%9F%E3%82%89%E3%81%86
+食らう	食らう	喰らう くらう		くらう	動詞	to eat; to drink; to wolf; to knock back / to receive (e.g. a blow)		0.31	23	喰らわせた(2) 食らうの(2) 食らえ(2)	11	https://jisho.org/search/%E9%A3%9F%E3%82%89%E3%81%86
 ムカつく	ムカつく	むかつく		むかつく	動詞	to feel irritated; to feel offended; to feel angry		0.3	22	むかつく(3) ムカつくんだ(3) むかつく奴(2)	10	https://jisho.org/search/%E3%83%A0%E3%82%AB%E3%81%A4%E3%81%8F
 おめえ	おめえ	おめぇ おめー	お前	おめえ	代名詞	you	fam male	0.25	19	おめえは(4) おめえ(3) おめえの(2)	9	https://jisho.org/search/%E3%81%8A%E3%82%81%E3%81%88
 んな	んな		そんな	んな	連体詞	such (about the actions of the listener, or about ideas expressed or understood by the listener); like that; that sort of	col abbr	0.24	18	んなこと(12) んなわけ(3) んなカード(1)	11	https://jisho.org/search/%E3%82%93%E3%81%AA
