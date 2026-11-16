@@ -26,7 +26,7 @@ RESCUES = {"katakana": "katakana spelling",  # ナメる for 舐める: Waller s
 PHRASE_BREAKS, PHRASE_ENDINGS = {"補助記号", "空白", "記号"}, {"助詞", "助動詞", "接尾辞"}
 HERE = os.path.dirname(os.path.abspath(__file__))
 BLOCKLIST, ALLOWLIST = os.path.join(HERE, "blocklist.tsv"), os.path.join(HERE, "allowlist.tsv")
-GENRE_WORDS, SENSES = os.path.join(HERE, "genre_words.tsv"), os.path.join(HERE, "senses.tsv")
+MOVE_TO_ORDINARY, SENSES = os.path.join(HERE, "move_to_ordinary.tsv"), os.path.join(HERE, "senses.tsv")
 NORMAL_FORMS, CONTEXTS = os.path.join(HERE, "normal_forms.tsv"), os.path.join(HERE, "contexts.tsv")
 MEANINGS = os.path.join(HERE, "meanings.tsv")
 FIELDS = ["form", "most_heard_as", "other_forms", "normal_form", "reading", "meaning",
@@ -202,11 +202,11 @@ def main(subs, ref, out, rescue=""):
                 for key, p in said:
                     phrases[key][p].add(line_id)
     rows = classify(hits, heard, phrases, lines, refs, lemma_reading, split, dropped, rescues)
-    genre = hand_list(GENRE_WORDS)
-    is_genre = {id(r) for r in rows if any((r["form"], p) in genre for p in r["pos"].split())}  # before forms are renamed
+    ordinary = hand_list(MOVE_TO_ORDINARY)
+    is_ordinary = {id(r) for r in rows if any((r["form"], p) in ordinary for p in r["pos"].split())}  # before forms are renamed
     rows = add_meanings(rows, refs[1], lemma_reading)
-    write([r for r in rows if id(r) not in is_genre], out, lines, dropped)
-    write_rows([r for r in rows if id(r) in is_genre], out.rsplit(".", 1)[0] + ".genre.tsv")
+    write([r for r in rows if id(r) not in is_ordinary], out, lines, dropped)
+    write_rows([r for r in rows if id(r) in is_ordinary], os.path.join(os.path.dirname(out), "ordinary_words.tsv"))
     print("last episode used:", last_ep)
     print("song lines left out per show (lines with Japanese):", dict(lyrics))
 

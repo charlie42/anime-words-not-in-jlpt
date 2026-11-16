@@ -1,9 +1,9 @@
 # Anime words that aren't on the JLPT lists
 
 `words.tsv` has 46 words that come up often in the subtitles of 25 anime but aren't on the
-JLPT N5 to N1 vocabulary lists. `topic_words.tsv` has 19 more that are ordinary words that just
+JLPT N5 to N1 vocabulary lists. `ordinary_words.tsv` has 19 more that are ordinary words that just
 happen to not be on the lists, such as 部室 (clubroom) and ブタ (pig). We sorted those into their
-own file by hand; `genre_words.tsv` gives the reason for each.
+own file by hand; `move_to_ordinary.tsv` gives the reason for each.
 
 The JLPT lists are vocabulary lists, so this list is words only: no particles or grammar endings.
 
@@ -29,7 +29,7 @@ The subtitles aren't included. The script reads `<subtitle dir>/raw/<show>/<epis
     python -I not_in_jlpt.py <subtitle dir> <reference dir> words.tsv
 
 It downloads the pinned JLPT lists and JMdict into the reference dir, then writes `words.tsv`,
-`words.genre.tsv` and `words.dropped.tsv`. We ship `words.genre.tsv` as `topic_words.tsv`.
+`ordinary_words.tsv` and `words.dropped.tsv`.
 `words.dropped.tsv` counts what was left out and why.
 
 
