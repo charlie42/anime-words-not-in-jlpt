@@ -1,16 +1,17 @@
 # Anime words that aren't on the JLPT lists
 
 `words.tsv` has 46 words that come up often in the subtitles of 25 anime but aren't on the
-JLPT N5 to N1 vocabulary lists. `topic_words.tsv` has 19 ordinary topic words the lists also
-skip, such as 部室 (clubroom).
+JLPT N5 to N1 vocabulary lists. `topic_words.tsv` has 19 more that are ordinary words that just
+happen to not be on the lists, such as 部室 (clubroom) and ブタ (pig). We sorted those into their
+own file by hand; `genre_words.tsv` gives the reason for each.
 
 The JLPT lists are vocabulary lists, so this list is words only: no particles or grammar endings.
 
 Every word on the list:
 
 - comes up in at least 4 of the 25 anime, and in about 12 lines in all
-- is a slurred form (すげえ for すごい), is labeled casual, rough or old-fashioned in JMdict, or
-  isn't marked common in JMdict
+- is a slurred form (すげえ for すごい), is labeled casual, familiar, rough, masculine or
+  old-fashioned in JMdict, or isn't marked common in JMdict
 
 A few words are kept or left out by hand. The other .tsv files list them, each with its reason.
 
